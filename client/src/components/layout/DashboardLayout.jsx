@@ -14,7 +14,7 @@ export default function DashboardLayout() {
   };
 
   const navItems = [
-    { label: 'LEARN', path: '/dashboard', icon: LayoutDashboard },
+    { label: 'VAULT', path: '/dashboard', icon: LayoutDashboard },
     { label: 'PROFILE', path: '/profile', icon: User },
     { label: 'SERVICES', path: '/services', icon: Zap },
     { label: 'MASTERY', path: '/mastery', icon: LayoutDashboard },

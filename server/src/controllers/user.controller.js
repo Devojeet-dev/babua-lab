@@ -8,10 +8,8 @@ export const getUser = async (req, res, next) => {
             next(handleError(404, 'user not found.'))
         }
         res.status(200).json({
-            success,
-            user: {
-                _id: user._id, name, email, karma, githubProfile, masteredPatterns: user.masteredPatterns.map(pattern => pattern._id)   
-            }
+            success: true,
+            user
         })
     } catch (error) {
         next(handleError(500, error.message))
@@ -41,6 +39,23 @@ export const updateUser = async (req, res, next) => {
         });
     } catch (error) {
         // It's better to pass the error object directly
+        next(handleError(500, error.message));
+    }
+};
+
+export const getLeaderboard = async (req, res, next) => {
+    try {
+        const topUsers = await User.find()
+            .sort({ karma: -1 })
+            .limit(10)
+            .select('name karma githubProfile') // Select only necessary fields
+            .lean();
+
+        res.status(200).json({
+            success: true,
+            leaderboard: topUsers
+        });
+    } catch (error) {
         next(handleError(500, error.message));
     }
 };

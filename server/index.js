@@ -1,12 +1,12 @@
 import express from "express";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { connectDb } from "./src/db/db.js";
 import AuthRoute from './src/routes/auth.routes.js'
 import UserRoute from './src/routes/user.routes.js'
+import PatternRoute from './src/routes/patterns.routes.js'
 import powRoute from './src/routes/pow.routes.js'
-dotenv.config();
+
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -46,7 +46,8 @@ app.get('/', (req, res) => {
 
 // Routes
 app.use('/auth', AuthRoute);
-app.use('/user', UserRoute);  
+app.use('/user', UserRoute);
+app.use('/patterns', PatternRoute);
 app.use('/userPow', powRoute);  
 
 // 404 handler

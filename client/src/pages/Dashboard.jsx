@@ -1,7 +1,14 @@
 import { Play, TrendingUp, Award, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function Dashboard() {
+  const { user } = useSelector((state) => state.auth);
+  const masteredCount = user?.masteredPatterns?.length || 0;
+  // Assuming total patterns is around 20 for now, or we can fetch it.
+  // For now hardcode 20 as goal.
+  
   return (
     <div className="space-y-8">
       {/* Welcome Section */}
@@ -10,9 +17,11 @@ export default function Dashboard() {
           <h1 className="text-4xl font-black text-white tracking-tight">THE VAULT</h1>
           <p className="text-slate-400 mt-2">Resume your engineering journey, Babua.</p>
         </div>
-        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase tracking-wider">
-          <Play className="mr-2 h-4 w-4" /> Resume Learning
-        </Button>
+        <Link to="/mastery">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase tracking-wider">
+            <Play className="mr-2 h-4 w-4" /> Resume Learning
+            </Button>
+        </Link>
       </div>
 
       {/* Stats Grid */}
@@ -20,20 +29,20 @@ export default function Dashboard() {
         <StatCard 
           icon={<TrendingUp className="text-emerald-400" />}
           label="Current Streak"
-          value="12 Days"
-          sub="Top 5% of learners"
+          value="1 Day"
+          sub="Just started!"
         />
         <StatCard 
           icon={<Award className="text-yellow-400" />}
           label="Patterns Mastered"
-          value="4 / 20"
+          value={`${masteredCount} / 20`}
           sub="Keep grinding!"
         />
         <StatCard 
           icon={<Clock className="text-blue-400" />}
-          label="Time Invested"
-          value="48 Hrs"
-          sub="This week"
+          label="Karma Earned"
+          value={user?.karma || 0}
+          sub="Total Points"
         />
       </div>
 
@@ -41,18 +50,22 @@ export default function Dashboard() {
       <div className="space-y-4">
         <h2 className="text-xl font-bold text-slate-200">Recommended Patterns</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <PatternCard 
-                title="Sliding Window" 
-                desc="Master fixed and variable window problems." 
-                difficulty="Medium" 
-                progress={30}
-            />
-            <PatternCard 
-                title="Two Pointers" 
-                desc="Optimize quadratic solutions to linear time." 
-                difficulty="Easy" 
-                progress={80}
-            />
+            <Link to="/learning/sliding-window">
+                <PatternCard 
+                    title="Sliding Window" 
+                    desc="Master fixed and variable window problems." 
+                    difficulty="Medium" 
+                    progress={0}
+                />
+            </Link>
+            <Link to="/learning/two-pointers">
+                <PatternCard 
+                    title="Two Pointers" 
+                    desc="Optimize quadratic solutions to linear time." 
+                    difficulty="Easy" 
+                    progress={0}
+                />
+            </Link>
         </div>
       </div>
     </div>
